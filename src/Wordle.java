@@ -84,11 +84,11 @@ public class Wordle {
         System.out.println("Welcome to the 4 word-le!");
         GameBoard game = new GameBoard(winningLetters);
 
-        for (String i : winningLetters)
+        /* for (String i : winningLetters)
         {
             System.out.print(i);
         }
-        System.out.println();
+        System.out.println(); */
 
         while(!game.isSolved() && game.getGuesses() < 6)
         {

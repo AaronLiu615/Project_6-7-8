@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -26,6 +27,11 @@ public class Wordle {
     private Scanner scanner;
 
     /**
+     * ArrayList of Guesses
+     */
+    private ArrayList<Guesses> guesses;
+
+    /**
      * Initializes wordle and loads words in the Arrays
      */
     public Wordle() {
@@ -33,6 +39,7 @@ public class Wordle {
         convertFile();
         winningLetters = getLetters();
         scanner = new Scanner(System.in);
+        guesses = new ArrayList<>();
     }
 
     /**
@@ -77,10 +84,10 @@ public class Wordle {
         System.out.println("Welcome to the 4 word-le!");
         GameBoard game = new GameBoard(winningLetters);
 
-        //for (String i : WinningLetters)
-        //{
-        //    System.out.print(i);
-        //} for testing (gives the answer)
+        for (String i : winningLetters)
+        {
+            System.out.print(i);
+        }
         System.out.println();
 
         while(!game.isSolved() && game.getGuesses() < 6)
@@ -92,6 +99,9 @@ public class Wordle {
                 System.out.print("Enter a 4 word: ");
                 String guess = scanner.nextLine();
                 guess = guess.toLowerCase();
+
+                Guesses userGuess = new Guesses(guess);
+                guesses.add(userGuess);
 
                 if (guess.length() == 4 && wordBank.contains(guess))
                 {
@@ -108,12 +118,24 @@ public class Wordle {
         {
             game.printBoard();
             System.out.println("CONGRATS YOU GUESSED THE WORD!!! It took you " + game.getGuesses() + " guesses!");
+            System.out.println("These were your guesses: ");
+            for (int i = 0; i < guesses.size(); i++)
+            {
+                System.out.println(guesses.get(i).toString() + " ");
+            }
         }
         else
         {
             game.printBoard();
             System.out.println("You ran out of guesses \nThe word was " + game.getAnswerStr());
+            System.out.println("These were your guesses: ");
+            for (int i = 0; i < guesses.size(); i++)
+            {
+                System.out.println(guesses.get(i).toString() + " ");
+            }
         }
+
+
 
     }
 

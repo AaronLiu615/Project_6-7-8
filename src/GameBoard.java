@@ -130,7 +130,7 @@ public class GameBoard {
     public void changeColor() // change the color of the letters
     {
 
-        for(int row = 0; row < board[0].length; row++) {
+        for(int row = 0; row < 6; row++) {
             for(int col = 0; col < 4; col++) {
 
                 String letter = board[row][col];

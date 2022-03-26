@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -9,63 +7,143 @@ import java.util.Scanner;
 
 // words come from https://eslforums.com/4-letter-words/
 
+/**
+ * Class that has the logic to run the game
+ * @author Aaron Liu
+ */
 public class Wordle {
-
+    /**
+     * Arraylist of all the available words in the game
+     */
     private ArrayList<String> wordBank;
-    private String[] Letter4Letter;
+    /**
+     * String list that contains the winning letters
+     */
+    private String[] WinningLetters;
+    /**
+     * Scanner for user input
+     */
+    private Scanner scanner;
 
+    /**
+     * Initializes wordle and loads words in the Arrays
+     */
     public Wordle() {
-        importWordList("src\\4letter.txt");
-        Letter4Letter = getLetters();
+        wordBank = new ArrayList<>();
+        convertFile();
+        WinningLetters = getLetters();
+        scanner = new Scanner(System.in);
+    }
+
+    /**
+     *
+     * @return WinningLetters
+     */
+    private String[] getWinningLetters()
+    {
+        return WinningLetters;
     }
 
 
-    private String[] getLetters() // breaks a random wor in word bank
+    /**
+     * helper methods to get winning letters
+     * @return a String list of a random word
+     */
+    private String[] getLetters() // helper for choosing word
     {
         String[] list = new String[4];
         String word = random();
 
-        for (int i = 1; i < word.length(); i++){
-            list[i] = word.substring(i - 1, i);
+        for (int i = 0; i < word.length(); i++)
+        {
+            if (i != 3)
+            {
+                list[i] = word.substring(i, i + 1);
+            }
+            else
+            {
+                list[i] = word.substring(i);
+            }
         }
         return list;
     }
 
+
+    /**
+     * Method for starting the game
+     */
+    public void start()
+    {
+        System.out.println("Welcome to the 4 word-le!");
+        GameBoard game = new GameBoard(WinningLetters);
+
+        for (String i : WinningLetters)
+        {
+            System.out.print(i);
+        }
+        System.out.println();
+
+        while(!game.isSolved() && game.getGuesses() < 6)
+        {
+            boolean realGuess = true;
+            while (realGuess)
+            {
+                game.printBoard();
+                System.out.print("Enter a 4 word: ");
+                String guess = scanner.nextLine();
+                guess = guess.toLowerCase();
+
+                if (guess.length() == 4 && wordBank.contains(guess))
+                {
+                    game.addGuess(guess);
+                    realGuess = false;
+                }
+                else
+                {
+                    System.out.println("Sorry but your letter was not a valid guess");
+                }
+            }
+        }
+        if (game.isSolved())
+        {
+            game.printBoard();
+            System.out.println("CONGRATS YOU GUESSED THE WORD!!! It took you " + game.getGuesses() + " guesses!");
+        }
+        else
+        {
+            game.printBoard();
+            System.out.println("You ran out of guesses \nThe word was " + game.getAnswerStr());
+        }
+
+    }
+
+    /**
+     *
+     * @return a random word from the word bank
+     */
     private String random() //gets a random word from array list
     {
         String word = wordBank.get((int) (Math.random()*(2499)+1));
         return word;
     }
 
-
-
-
-
-
-
-
-    private void importWordList(String fileName) //converts file to array
+    /**
+     * Loads a text file into wordBank
+     */
+    private void convertFile() // converts file to array
     {
-        /* TASK 1: IMPLEMENT ME! */
         try {
-            FileReader fileReader = new FileReader(fileName);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line = bufferedReader.readLine();
-
-            wordBank = new ArrayList<String>();
-
-            while ((line = bufferedReader.readLine()) != null) {
-                // import all cells for a single row as an array of Strings,
-
-
-                String word = line;;
+            Scanner input = new Scanner(new File("src\\4letter.txt"));
+            while (input.hasNext()) {
+                String word = input.next();
                 wordBank.add(word);
             }
-            bufferedReader.close();
-        } catch (IOException exception) {
-            // Print out the exception that occurred
-            System.out.println("Unable to access " + exception.getMessage());
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
     }
+
+
+
 
 }

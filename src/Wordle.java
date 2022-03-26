@@ -77,10 +77,10 @@ public class Wordle {
         System.out.println("Welcome to the 4 word-le!");
         GameBoard game = new GameBoard(WinningLetters);
 
-        for (String i : WinningLetters)
-        {
-            System.out.print(i);
-        }
+        //for (String i : WinningLetters)
+        //{
+        //    System.out.print(i);
+        //} for testing (gives the answer)
         System.out.println();
 
         while(!game.isSolved() && game.getGuesses() < 6)

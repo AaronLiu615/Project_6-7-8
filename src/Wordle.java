@@ -19,7 +19,7 @@ public class Wordle {
     /**
      * String list that contains the winning letters
      */
-    private String[] WinningLetters;
+    private String[] winningLetters;
     /**
      * Scanner for user input
      */
@@ -31,7 +31,7 @@ public class Wordle {
     public Wordle() {
         wordBank = new ArrayList<>();
         convertFile();
-        WinningLetters = getLetters();
+        winningLetters = getLetters();
         scanner = new Scanner(System.in);
     }
 
@@ -41,7 +41,7 @@ public class Wordle {
      */
     private String[] getWinningLetters()
     {
-        return WinningLetters;
+        return winningLetters;
     }
 
 
@@ -75,7 +75,7 @@ public class Wordle {
     public void start()
     {
         System.out.println("Welcome to the 4 word-le!");
-        GameBoard game = new GameBoard(WinningLetters);
+        GameBoard game = new GameBoard(winningLetters);
 
         //for (String i : WinningLetters)
         //{

@@ -28,7 +28,7 @@ public class GameBoard {
     /**
      * A 2d array that is the game board
      */
-    private String[][] Board;
+    private String[][] board;
     /**
      * A array for the answer
      */
@@ -56,7 +56,7 @@ public class GameBoard {
         this.answer = answer;
         ANSWER = convertToString(answer);
 
-        Board = new String[][]{
+        board = new String[][]{
                 {"_", "_", "_", "_"},
                 {"_", "_", "_", "_"},
                 {"_", "_", "_", "_"},
@@ -104,11 +104,11 @@ public class GameBoard {
         {
             if (i != 3)
             {
-                Board[guesses][i] = guess.substring(i, i + 1);
+                board[guesses][i] = guess.substring(i, i + 1);
             }
             else
             {
-                Board[guesses][i] = guess.substring(3);
+                board[guesses][i] = guess.substring(3);
             }
         }
         guesses += 1;
@@ -130,24 +130,24 @@ public class GameBoard {
     public void changeColor() // change the color of the letters
     {
 
-        for(int row = 0; row < Board[0].length; row++) {
+        for(int row = 0; row < board[0].length; row++) {
             for(int col = 0; col < 4; col++) {
 
-                String letter = Board[row][col];
+                String letter = board[row][col];
 
                 if(letter.equals(answer[col]))
                 {
-                    Board[row][col] = GREEN + letter + RESET;
+                    board[row][col] = GREEN + letter + RESET;
                 }
 
                 else if(isYellow(letter))
                 {
-                    Board[row][col] = YELLOW + letter + RESET;
+                    board[row][col] = YELLOW + letter + RESET;
                 }
 
                 else
                 {
-                    Board[row][col] = WHITE + letter + RESET;
+                    board[row][col] = WHITE + letter + RESET;
                 }
             }
         }
@@ -158,7 +158,7 @@ public class GameBoard {
      */
     public void printBoard() // prints the board
     {
-        for(String[] row : Board) {
+        for(String[] row : board) {
             for(String letter : row) {
                 System.out.print(letter + " ");
             }
